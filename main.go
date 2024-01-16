@@ -87,15 +87,20 @@ func captchaVerifyHandle(w http.ResponseWriter, r *http.Request) {
 //start a net/http server
 func main() {
 	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hello, World!")
+    })
+
 	//api for create captcha
 	mux.HandleFunc("/api/getCaptcha", generateCaptchaHandler)
 
 	//api for verify captcha
 	mux.HandleFunc("/api/verifyCaptcha", captchaVerifyHandle)
 
-	fmt.Println("Server is at :8777")
+	fmt.Println("Server is at :8080")
 	handler := cors.Default().Handler(mux)
-	if err := http.ListenAndServe(":8777", handler); err != nil {
+	if err := http.ListenAndServe(":8080", handler); err != nil {
 		log.Fatal(err)
 	}
 }
